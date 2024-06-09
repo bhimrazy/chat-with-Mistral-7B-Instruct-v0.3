@@ -1,24 +1,35 @@
 import base64
 import json
 import re
+import secrets
+import string
 import uuid
 
 # import logging
 
 # logging.basicConfig(level=logging.INFO)
 
+# def generate_call_id():
+#     """
+#     Generate a unique call ID in a base64-like format.
+
+#     Returns:
+#         str: A unique call ID.
+#     """
+#     unique_id = uuid.uuid4().bytes
+#     base64_id = base64.urlsafe_b64encode(unique_id).rstrip(b"=").decode("ascii")
+#     return f"call_{base64_id}"
 
 def generate_call_id():
     """
-    Generate a unique call ID in a base64-like format.
+    Generate a unique call ID with exactly 9 characters in the format a-z, A-Z, 0-9.
 
     Returns:
         str: A unique call ID.
     """
-    unique_id = uuid.uuid4().bytes
-    base64_id = base64.urlsafe_b64encode(unique_id).rstrip(b"=").decode("ascii")
-    return f"call_{base64_id}"
-
+    characters = string.ascii_letters + string.digits
+    unique_id = ''.join(secrets.choice(characters) for _ in range(9))
+    return unique_id
 
 def extract_tool_calls_from_buffer(buffer):
     """

@@ -46,7 +46,11 @@ class OpenAISpecLitAPI(ls.LitAPI):
         )
 
     def decode_request(self, request: ChatCompletionRequest):
-        tools = [tool.dict(exclude_none=True) for tool in request.tools]
+        tools = (
+            [tool.dict(exclude_none=True) for tool in request.tools]
+            if request.tools
+            else []
+        )
         messages = [message.dict(exclude_none=True) for message in request.messages]
         completion_request = ChatCompletionRequest(messages=messages, tools=tools)
 
@@ -79,7 +83,6 @@ class OpenAISpecLitAPI(ls.LitAPI):
             buffer.append(output)
             # check if tool calls
             if "".join(buffer).startswith("[TOOL_CALLS]"):
-                # continue
                 tool_calls = extract_tool_calls_from_buffer(buffer)
                 yield ChatMessage(role="assistant", content="", tool_calls=tool_calls)
                 continue
@@ -89,7 +92,7 @@ class OpenAISpecLitAPI(ls.LitAPI):
         # parse tool calls from output buffer
         # tool_calls = extract_tool_calls_from_buffer(buffer)
         # print(ChatMessage(role="assistant", content="", tool_calls=tool_calls))
-        # yield ChatMessage(role="assistant", content="", tool_calls=tool_calls)
+        # yield ChatMessage(role="assistant", content=content, tool_calls=tool_calls)
 
 
 if __name__ == "__main__":
