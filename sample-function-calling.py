@@ -47,36 +47,36 @@ completion_request = ChatCompletionRequest(
     ],
     messages=[
         UserMessage(content="What's the weather like today in Paris"),
-        AssistantMessage(
-            content=None,
-            tool_calls=[
-                ToolCall(
-                    id="VvvODy9mT",
-                    function=FunctionCall(
-                        name="get_current_weather",
-                        arguments='{"location": "Paris, France", "format": "celsius"}',
-                    ),
-                )
-            ],
-        ),
-        ToolMessage(tool_call_id="VvvODy9mT", name="get_current_weather", content="22"),
-        AssistantMessage(
-            content="The current temperature in Paris, France is 22 degrees Celsius.",
-        ),
-        UserMessage(content="What's the weather like today in San Francisco"),
-        AssistantMessage(
-            content=None,
-            tool_calls=[
-                ToolCall(
-                    id="fAnpW3TEV",
-                    function=FunctionCall(
-                        name="get_current_weather",
-                        arguments='{"location": "San Francisco", "format": "celsius"}',
-                    ),
-                )
-            ],
-        ),
-        ToolMessage(tool_call_id="fAnpW3TEV", name="get_current_weather", content="20"),
+        # AssistantMessage(
+        #     content=None,
+        #     tool_calls=[
+        #         ToolCall(
+        #             id="VvvODy9mT",
+        #             function=FunctionCall(
+        #                 name="get_current_weather",
+        #                 arguments='{"location": "Paris, France", "format": "celsius"}',
+        #             ),
+        #         )
+        #     ],
+        # ),
+        # ToolMessage(tool_call_id="VvvODy9mT", name="get_current_weather", content="22"),
+        # AssistantMessage(
+        #     content="The current temperature in Paris, France is 22 degrees Celsius.",
+        # ),
+        # UserMessage(content="What's the weather like today in San Francisco"),
+        # AssistantMessage(
+        #     content=None,
+        #     tool_calls=[
+        #         ToolCall(
+        #             id="fAnpW3TEV",
+        #             function=FunctionCall(
+        #                 name="get_current_weather",
+        #                 arguments='{"location": "San Francisco", "format": "celsius"}',
+        #             ),
+        #         )
+        #     ],
+        # ),
+        # ToolMessage(tool_call_id="fAnpW3TEV", name="get_current_weather", content="20"),
     ],
 )
 
@@ -95,6 +95,7 @@ out_tokens, _ = generate(
     temperature=0.0,
     eos_id=tokenizer.instruct_tokenizer.tokenizer.eos_id,
 )
+print("out_tokens", out_tokens)
 result = tokenizer.instruct_tokenizer.tokenizer.decode(out_tokens[0])
 
 print(result)
